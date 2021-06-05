@@ -12,10 +12,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _text1 = TextEditingController();
+  final _text2 = TextEditingController();
+  bool _validateEmail = false;
+  bool _validatePassword = false;
   bool showSpinner = false;
   String email;
   String password;
   final _auth = FirebaseAuth.instance;
+
+  @override
+  void dispose() {
+    _text1.dispose();
+    _text2.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +53,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 48.0,
               ),
               TextField(
+                controller: _text1,
                 textInputAction: TextInputAction.next,
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   email = value;
                 },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Enter your email',
+                    errorText:
+                        _validateEmail ? 'Please enter your email' : null),
               ),
               SizedBox(
                 height: 8.0,
               ),
               TextField(
+                controller: _text2,
                 textInputAction: TextInputAction.done,
                 textAlign: TextAlign.center,
                 obscureText: true,
@@ -62,7 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   password = value;
                 },
                 decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your password'),
+                    hintText: 'Enter your password',
+                    errorText: _validatePassword
+                        ? 'Please enter your password'
+                        : null),
               ),
               SizedBox(
                 height: 24.0,
@@ -72,17 +90,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: "Log In",
                 onPressed: () async {
                   setState(() {
-                    showSpinner = true;
+                    _text1.text.isEmpty
+                        ? _validateEmail = true
+                        : _validateEmail = false;
+                    _text2.text.isEmpty
+                        ? _validatePassword = true
+                        : _validatePassword = false;
+                    !_validateEmail && !_validatePassword
+                        ? showSpinner = true
+                        : null;
                   });
                   try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (user != null) {
-                      Navigator.pushNamed(context, ChatScreen.id);
+                    if (!_validateEmail && !_validatePassword) {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (user != null) {
+                        Navigator.pushNamed(context, ChatScreen.id);
+                      }
+                      setState(() {
+                        showSpinner = false;
+                      });
                     }
-                    setState(() {
-                      showSpinner = false;
-                    });
                   } catch (e) {
                     setState(() {
                       showSpinner = false;
