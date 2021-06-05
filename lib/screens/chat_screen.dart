@@ -68,33 +68,60 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) {
-                        messageText = value;
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('messages').snapshots(),
+              // ignore: missing_return
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
+                }
+                final messages = snapshot.data.docs;
+                List<Text> messageWidgets = [];
+                for (var message in messages) {
+                  final messageText = message.get('text');
+                  final messageSender = message.get('sender');
+                  final messageWidget =
+                      Text('$messageText from $messageSender');
+                  messageWidgets.add(messageWidget);
+                }
+                return Column(
+                  children: messageWidgets,
+                );
+              },
+            ),
+            Flexible(
+              child: Container(
+                decoration: kMessageContainerDecoration,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        onChanged: (value) {
+                          messageText = value;
+                        },
+                        decoration: kMessageTextFieldDecoration,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        //We need messageText + loggedInUser.email to upload to firestore
+                        _firestore.collection('messages').add({
+                          'text': messageText,
+                          'sender': loggedInUser.email,
+                        });
                       },
-                      decoration: kMessageTextFieldDecoration,
+                      child: Text(
+                        'Send',
+                        style: kSendButtonTextStyle,
+                      ),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      //We need messageText + loggedInUser.email to upload to firestore
-                      _firestore.collection('messages').add({
-                        'text': messageText,
-                        'sender': loggedInUser.email,
-                      });
-                    },
-                    child: Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
