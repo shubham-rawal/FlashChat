@@ -13,6 +13,10 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
+  final _text1 = TextEditingController();
+  final _text2 = TextEditingController();
+  final _text3 = TextEditingController();
+  bool _validate1 = false, _validate2 = false, _validate3 = false;
   bool showSpinner = false;
   String name;
   String email;
@@ -43,18 +47,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 48.0,
                 ),
                 TextField(
+                  controller: _text1,
                   textInputAction: TextInputAction.next,
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     name = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your name'),
+                      hintText: 'Enter your name',
+                      errorText: _validate1 ? 'Please enter your name.' : null),
                 ),
                 SizedBox(
                   height: 8.0,
                 ),
                 TextField(
+                  controller: _text2,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
@@ -62,12 +69,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     email = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your email'),
+                      hintText: 'Enter your email',
+                      errorText: _validate2 ? 'Please enter an email.' : null),
                 ),
                 SizedBox(
                   height: 8.0,
                 ),
                 TextField(
+                  controller: _text3,
                   textInputAction: TextInputAction.done,
                   textAlign: TextAlign.center,
                   obscureText: true,
@@ -75,7 +84,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     password = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Create a password'),
+                      hintText: 'Create a password',
+                      errorText:
+                          _validate3 ? 'Please create a password.' : null),
                 ),
                 SizedBox(
                   height: 24.0,
@@ -85,19 +96,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   title: "Register",
                   onPressed: () async {
                     setState(() {
-                      showSpinner = true;
+                      _text1.text.isEmpty
+                          ? _validate1 = true
+                          : _validate1 = false;
+                      _text2.text.isEmpty
+                          ? _validate2 = true
+                          : _validate2 = false;
+                      _text3.text.isEmpty
+                          ? _validate3 = true
+                          : _validate3 = false;
+                      !_validate1 && !_validate2 && !_validate3
+                          ? showSpinner = true
+                          : null;
                     });
                     try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
-                      if (newUser != null) {
-                        Navigator.pushNamed(context, ChatScreen.id);
+                      if (!_validate1 && !_validate2 && !_validate3) {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                        if (newUser != null) {
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }
+                        setState(() {
+                          showSpinner = false;
+                        });
                       }
-                      setState(() {
-                      showSpinner = false;
-                    });
                     } catch (e) {
+                      setState(() {
+                          showSpinner = false;
+                        });
                       print(e);
                     }
                   },
