@@ -36,90 +36,92 @@ class _LoginScreenState extends State<LoginScreen> {
         inAsyncCall: showSpinner,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Flexible(
-                child: Hero(
-                  tag: 'logo',
-                  child: Container(
-                    height: 200.0,
-                    child: Image.asset('images/logo.png'),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Flexible(
+                  child: Hero(
+                    tag: 'logo',
+                    child: Container(
+                      height: 200.0,
+                      child: Image.asset('images/logo.png'),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                controller: _text1,
-                textInputAction: TextInputAction.next,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your email',
-                    errorText:
-                        _validateEmail ? 'Please enter your email' : null),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                controller: _text2,
-                textInputAction: TextInputAction.done,
-                textAlign: TextAlign.center,
-                obscureText: true,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your password',
-                    errorText: _validatePassword
-                        ? 'Please enter your password'
-                        : null),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              RoundedButton(
-                color: Colors.lightBlueAccent,
-                title: "Log In",
-                onPressed: () async {
-                  setState(() {
-                    _text1.text.isEmpty
-                        ? _validateEmail = true
-                        : _validateEmail = false;
-                    _text2.text.isEmpty
-                        ? _validatePassword = true
-                        : _validatePassword = false;
-                    !_validateEmail && !_validatePassword
-                        ? showSpinner = true
-                        : null;
-                  });
-                  try {
-                    if (!_validateEmail && !_validatePassword) {
-                      final user = await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
-                      if (user != null) {
-                        Navigator.pushNamed(context, ChatScreen.id);
+                SizedBox(
+                  height: 48.0,
+                ),
+                TextField(
+                  controller: _text1,
+                  textInputAction: TextInputAction.next,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter your email',
+                      errorText:
+                          _validateEmail ? 'Please enter your email' : null),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
+                  controller: _text2,
+                  textInputAction: TextInputAction.done,
+                  textAlign: TextAlign.center,
+                  obscureText: true,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter your password',
+                      errorText: _validatePassword
+                          ? 'Please enter your password'
+                          : null),
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                RoundedButton(
+                  color: Colors.lightBlueAccent,
+                  title: "Log In",
+                  onPressed: () async {
+                    setState(() {
+                      _text1.text.isEmpty
+                          ? _validateEmail = true
+                          : _validateEmail = false;
+                      _text2.text.isEmpty
+                          ? _validatePassword = true
+                          : _validatePassword = false;
+                      !_validateEmail && !_validatePassword
+                          ? showSpinner = true
+                          : null;
+                    });
+                    try {
+                      if (!_validateEmail && !_validatePassword) {
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        if (user != null) {
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }
+                        setState(() {
+                          showSpinner = false;
+                        });
                       }
+                    } catch (e) {
                       setState(() {
                         showSpinner = false;
                       });
+                      print(e);
                     }
-                  } catch (e) {
-                    setState(() {
-                      showSpinner = false;
-                    });
-                    print(e);
-                  }
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

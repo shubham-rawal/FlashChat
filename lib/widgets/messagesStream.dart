@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/widgets/messageBubbles.dart';
 import 'package:flutter/material.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 
 class MessagesStream extends StatelessWidget {
   final _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages').snapshots(),
-      // ignore: missing_return
+      stream: _firestore.collection('messages').orderBy('timestamp').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -17,19 +17,22 @@ class MessagesStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs;
+        final messages = snapshot.data.docs.reversed;
         List<MessageBubble> messageBubbles = [];
         for (var message in messages) {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
+          final currentUser = loggedInUser.email;
           final messageBubble = MessageBubble(
             text: messageText,
             sender: messageSender,
+            isMe: currentUser == messageSender,
           );
           messageBubbles.add(messageBubble);
         }
         return Expanded(
           child: ListView(
+            reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),
