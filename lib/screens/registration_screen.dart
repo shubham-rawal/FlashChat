@@ -121,11 +121,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           showSpinner = false;
                         });
                       }
-                    } catch (e) {
+                    } catch (error) {
                       setState(() {
-                          showSpinner = false;
-                        });
-                      print(e);
+                        showSpinner = false;
+                      });
+                      final snackbar = SnackBar(
+                        content: Text(error.message),
+                        action: SnackBarAction(label: 'OK', onPressed: () {}),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
                   },
                 ),

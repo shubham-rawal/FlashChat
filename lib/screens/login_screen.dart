@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/widgets/roundedButton.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -112,11 +113,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           showSpinner = false;
                         });
                       }
-                    } catch (e) {
+                    } catch (error) {
+                      print(error.message);
                       setState(() {
                         showSpinner = false;
                       });
-                      print(e);
+
+                      bool isNewUser = false;
+                      if (error.code == 'user-not-found') isNewUser = true;
+
+                      final snackbar = SnackBar(
+                        content: Text(error.message),
+                        action: SnackBarAction(
+                            label: isNewUser ? 'Register' : 'OK',
+                            onPressed: isNewUser
+                                ? () {
+                                    Navigator.pushNamed(
+                                        context, RegistrationScreen.id);
+                                  }
+                                : () {}),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
                   },
                 ),
