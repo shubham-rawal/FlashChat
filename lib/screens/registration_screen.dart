@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/widgets/roundedButton.dart';
@@ -13,6 +14,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
   final _text1 = TextEditingController();
   final _text2 = TextEditingController();
   final _text3 = TextEditingController();
@@ -92,7 +94,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 24.0,
                 ),
                 RoundedButton(
-                  
                   color: Colors.blueAccent,
                   title: "Register",
                   onPressed: () async {
@@ -115,11 +116,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         final newUser =
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
+                        await _firestore.collection('users').add({
+                          'name': name,
+                          'email': email,
+                        });
                         if (newUser != null) {
                           Navigator.pushNamed(context, ChatScreen.id);
                         }
                         setState(() {
                           showSpinner = false;
+                          final snackBar = SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            content: Text('Yay! New User created'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         });
                       }
                     } catch (error) {
