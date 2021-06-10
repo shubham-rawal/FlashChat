@@ -21,7 +21,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       duration: Duration(seconds: 1),
       vsync: this,
     );
-    animation = ColorTween(begin: Colors.orange.shade300, end: Colors.white)
+    animation = ColorTween(begin: Colors.lightBlue.shade300, end: Colors.white)
         .animate(controller);
     controller.forward();
 
@@ -47,7 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Row(
-              mainAxisAlignment : MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Hero(
                   tag: 'logo',

@@ -35,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       print(e);
     }
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {

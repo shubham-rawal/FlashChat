@@ -123,7 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (error.code == 'user-not-found') isNewUser = true;
 
                       final snackbar = SnackBar(
-                        content: Text(error.message),
+                        content: Text(isNewUser
+                            ? 'No account found, Register Now!'
+                            : error.message),
                         action: SnackBarAction(
                             label: isNewUser ? 'Register' : 'OK',
                             onPressed: isNewUser
