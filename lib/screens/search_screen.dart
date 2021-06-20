@@ -9,9 +9,8 @@ class SearchScreen extends StatelessWidget {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static const String id = 'SearchScreen';
   String searchedUser;
-  String searchedEmail;
-  String searchedName;
-  List<ListTile> searchResult = [];
+  String searchedEmail = 'rahul@gmail.com';
+  String searchedName = 'Rahul';
 
   Future<Widget> searchForUser() async {
     final userList = await _firestore.collection('users').get();
@@ -20,33 +19,6 @@ class SearchScreen extends StatelessWidget {
       if (searchedEmail == searchedUser) {
         searchedName = user.get('name');
         print(searchedName);
-        searchResult.add(
-          ListTile(
-            onTap: () {
-              //Navigator.pushNamed(context, ChatScreen.id);
-            },
-            minVerticalPadding: 5.0,
-            contentPadding: EdgeInsets.all(10.0),
-            leading: CircleAvatar(
-              radius: 25.0,
-              backgroundColor: Colors.blueGrey.shade100,
-              child: Text(
-                searchedName[0],
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-            title: Text(
-              searchedName,
-              style: TextStyle(
-                fontSize: 22,
-              ),
-            ),
-          ),
-        );
       }
     }
   }
@@ -71,6 +43,7 @@ class SearchScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -99,8 +72,45 @@ class SearchScreen extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 50.0,),
-            searchResult[0],
+            SizedBox(
+              height: 30.0,
+            ),
+            Text('Search Results : '),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 1,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    },
+                    minVerticalPadding: 5.0,
+                    contentPadding: EdgeInsets.all(10.0),
+                    leading: CircleAvatar(
+                      radius: 25.0,
+                      backgroundColor: Colors.blueGrey.shade100,
+                      child: Text(
+                        searchedName[0],
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      searchedName,
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
