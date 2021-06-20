@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'chat_list.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -30,12 +31,11 @@ class _ChatScreenState extends State<ChatScreen> {
       final user = _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
-        print(loggedInUser.email);
       }
     } catch (e) {
       print(e);
     }
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           'timestamp': Timestamp.now(),
                           'text': messageText,
                           'sender': loggedInUser.email,
-                          
+                          // 'receiver': contactEmail,
                         });
                         messageText = null;
                       }
