@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/screens/chat_list.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
@@ -116,12 +117,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         final newUser =
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
-                        await _firestore.collection('users').doc(newUser.user.uid).set({
+                        await _firestore
+                            .collection('users')
+                            .doc(newUser.user.uid)
+                            .set({
                           'name': name,
                           'email': email,
                         });
                         if (newUser != null) {
-                          Navigator.pushNamed(context, ChatScreen.id);
+                          Navigator.pushNamed(context, ChatList.id);
                         }
                         setState(() {
                           showSpinner = false;

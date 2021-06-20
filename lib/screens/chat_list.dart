@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flash_chat/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 String name = 'Hello';
@@ -68,7 +69,9 @@ class ChatList extends StatelessWidget {
           size: 27,
         ),
         backgroundColor: Colors.lightBlueAccent,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, SearchScreen.id);
+        },
       ),
     );
   }

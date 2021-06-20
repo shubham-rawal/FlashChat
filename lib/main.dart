@@ -1,4 +1,5 @@
 import 'package:flash_chat/screens/chat_list.dart';
+import 'package:flash_chat/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flash_chat/screens/login_screen.dart';
@@ -25,6 +26,7 @@ class FlashChat extends StatelessWidget {
         ChatList.id: (context) => ChatList(),
         ChatScreen.id: (context) => ChatScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
       },
     );
   }
