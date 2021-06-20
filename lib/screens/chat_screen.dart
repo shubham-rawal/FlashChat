@@ -83,6 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           'timestamp': Timestamp.now(),
                           'text': messageText,
                           'sender': loggedInUser.email,
+                          
                         });
                         messageText = null;
                       }

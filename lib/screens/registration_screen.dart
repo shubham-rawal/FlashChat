@@ -116,7 +116,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         final newUser =
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
-                        await _firestore.collection('users').add({
+                        await _firestore.collection('users').doc(newUser.user.uid).set({
                           'name': name,
                           'email': email,
                         });
