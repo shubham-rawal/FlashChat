@@ -10,12 +10,8 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore
-          .collection('messages')
-          .where('sender', isEqualTo: loggedInUser.email)
-          .where('receiver', isEqualTo: contactEmail)
-          .orderBy('timestamp')
-          .snapshots(),
+      stream:
+          _firestore.collection('messages').orderBy('timestamp').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
