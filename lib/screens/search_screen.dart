@@ -59,6 +59,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     .add({
                   'contactEmail': searchedEmail,
                   'contactName': searchedName,
+                  'timestamp' : Timestamp.now(),
                 });
               },
               minVerticalPadding: 5.0,
