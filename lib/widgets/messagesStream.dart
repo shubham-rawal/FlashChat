@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat/screens/search_screen.dart';
+import 'package:flash_chat/widgets/chatListStream.dart';
 import 'package:flash_chat/widgets/messageBubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
@@ -8,7 +10,12 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages').orderBy('timestamp').snapshots(),
+      stream: _firestore
+          .collection('messages')
+          .where('sender', isEqualTo: loggedInUser.email)
+          .where('receiver', isEqualTo: contactEmail)
+          .orderBy('timestamp')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -22,6 +29,7 @@ class MessagesStream extends StatelessWidget {
         for (var message in messages) {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
+          final messageReceiver = message.get('receiver');
           final currentUser = loggedInUser.email;
           final messageBubble = MessageBubble(
             text: messageText,

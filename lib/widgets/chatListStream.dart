@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+String contactName;
+String contactEmail;
 
 class ChatListStream extends StatelessWidget {
   @override
@@ -28,8 +30,8 @@ class ChatListStream extends StatelessWidget {
           final contactDetails = snapshot.data.docs.reversed;
           List<ListTile> chatTiles = [];
           for (var contactDetail in contactDetails) {
-            final contactName = contactDetail.get('contactName');
-            final contactEmail = contactDetail.get('contactEmail');
+            contactName = contactDetail.get('contactName');
+            contactEmail = contactDetail.get('contactEmail');
             chatTiles.add(
               ListTile(
                 onTap: () {

@@ -1,3 +1,5 @@
+import 'package:flash_chat/screens/search_screen.dart';
+import 'package:flash_chat/widgets/chatListStream.dart';
 import 'package:flash_chat/widgets/messagesStream.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
@@ -83,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           'timestamp': Timestamp.now(),
                           'text': messageText,
                           'sender': loggedInUser.email,
-                          // 'receiver': contactEmail,
+                          'receiver': contactEmail,
                         });
                         messageText = null;
                       }
