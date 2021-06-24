@@ -46,16 +46,11 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    //bool isFirstSearch = true;
     print(currentUserDetails);
     final _searchController = TextEditingController();
 
     Widget createFinalWidget() {
       if (isSearchResultEmpty == false) {
-        // if (isFirstSearch) {
-        //   isFirstSearch = false;
-        //   return null;
-        // }
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -30,7 +30,7 @@ class MessagesStream extends StatelessWidget {
           final messageSender = message.get('sender');
           final messageReceiver = message.get('receiver');
           final currentUser = loggedInUser.email;
-          print(contactEmail);
+          //print(email);
           if (messageSender == currentUser && messageReceiver == email) {
             final messageBubble = MessageBubble(
               text: messageText,

@@ -134,6 +134,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         setState(() {
                           showSpinner = false;
+                          final snackBar = SnackBar(
+                            duration: Duration(milliseconds: 1000),
+                            content: Text('Logged in as $email'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         });
                       }
                     } catch (error) {

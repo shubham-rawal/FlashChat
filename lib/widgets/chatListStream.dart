@@ -34,10 +34,11 @@ class ChatListStream extends StatelessWidget {
           for (var contactDetail in contactDetails) {
             contactName = contactDetail.get('contactName');
             contactEmail = contactDetail.get('contactEmail');
-            // print(contactEmail);
+            print(contactEmail);
             chatTiles.add(
               ListTile(
                 onTap: () {
+                  //print(contactEmail);
                   Navigator.pushNamed(context, ChatScreen.id,
                       arguments: contactEmail);
                 },
@@ -60,6 +61,9 @@ class ChatListStream extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                   ),
+                ),
+                subtitle: Text(
+                  contactEmail,
                 ),
               ),
             );
