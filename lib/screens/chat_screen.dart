@@ -83,12 +83,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       messageTextController.clear();
 
                       //We need messageText + loggedInUser.email to upload to firestore
-                      if (messageText != null && messageText != '') {
+                      if (messageText.isNotEmpty && messageText != '') {
                         _firestore.collection('messages').add({
                           'timestamp': Timestamp.now(),
                           'text': messageText,
                           'sender': loggedInUser.email,
-                          'receiver': contactEmail,
+                          'receiver': chatEmail,
                         });
                         messageText = null;
                       }

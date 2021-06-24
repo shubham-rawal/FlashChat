@@ -58,7 +58,8 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             ListTile(
               onTap: () async {
-                Navigator.pushNamed(context, ChatScreen.id);
+                Navigator.pushNamed(context, ChatScreen.id,
+                    arguments: searchedEmail);
                 await _firestore
                     .collection('users')
                     .doc(loggedUser.uid)
