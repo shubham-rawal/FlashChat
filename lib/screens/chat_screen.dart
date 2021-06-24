@@ -43,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final String chatEmail =
         ModalRoute.of(context).settings.arguments as String;
-    //print(chatEmail);
+    print(chatEmail);
     return Scaffold(
       appBar: AppBar(
         leading: null,

@@ -31,6 +31,8 @@ Future<void> searchForUser() async {
 
       print(searchedName);
       break;
+    } else {
+      isSearchResultEmpty = true;
     }
     if (searchedName == null) isSearchResultEmpty = true;
   }
@@ -49,9 +51,9 @@ class _SearchScreenState extends State<SearchScreen> {
     print(currentUserDetails);
     final _searchController = TextEditingController();
 
-    Widget createFinalWidget() {
+    void createFinalWidget() {
       if (isSearchResultEmpty == false) {
-        return Column(
+        finalWidget = Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
@@ -104,7 +106,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         );
       } else {
-        return Center(
+        finalWidget = Center(
           child: Text(
             'Oops! No results found for this search. Please try again',
             textAlign: TextAlign.center,
@@ -153,7 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: () {
                       setState(() {
                         searchForUser();
-                        //createFinalWidget();
+                        createFinalWidget();
                       });
                     },
                     child: CircleAvatar(
@@ -171,7 +173,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Text('Search Results : '),
             Expanded(
               child: Container(
-                child: createFinalWidget(),
+                child: finalWidget,
               ),
             ),
           ],

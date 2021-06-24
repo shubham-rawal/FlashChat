@@ -30,45 +30,46 @@ class ChatListStream extends StatelessWidget {
           }
           final contactDetails = snapshot.data.docs.reversed;
           print(contactDetails.length);
-          List<ListTile> chatTiles = [];
+          //List<ListTile> chatTiles = [];
+          List contactNames = [];
+          List contactEmails = [];
           for (var contactDetail in contactDetails) {
-            contactName = contactDetail.get('contactName');
-            contactEmail = contactDetail.get('contactEmail');
-            print(contactEmail);
-            chatTiles.add(
-              ListTile(
-                onTap: () {
-                  //print(contactEmail);
-                  Navigator.pushNamed(context, ChatScreen.id,
-                      arguments: contactEmail);
-                },
-                minVerticalPadding: 5.0,
-                contentPadding: EdgeInsets.all(10.0),
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundColor: Colors.blueGrey.shade100,
-                  child: Text(
-                    contactName[0],
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-                title: Text(
-                  contactName,
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-                subtitle: Text(
-                  contactEmail,
-                ),
-              ),
-            );
+            contactNames.add(contactDetail.get('contactName'));
+            contactEmails.add(contactDetail.get('contactEmail'));
+            // chatTiles.add(
+            //   ListTile(
+            //     onTap: () {
+            //       //print(contactEmail);
+            //       Navigator.pushNamed(context, ChatScreen.id,
+            //           arguments: contactEmail);
+            //     },
+            //     minVerticalPadding: 5.0,
+            //     contentPadding: EdgeInsets.all(10.0),
+            //     leading: CircleAvatar(
+            //       radius: 25.0,
+            //       backgroundColor: Colors.blueGrey.shade100,
+            //       child: Text(
+            //         contactName[0],
+            //         style: TextStyle(
+            //           fontSize: 22,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.blue,
+            //         ),
+            //       ),
+            //     ),
+            //     title: Text(
+            //       contactName,
+            //       style: TextStyle(
+            //         fontSize: 22,
+            //       ),
+            //     ),
+            //     subtitle: Text(
+            //       contactEmail,
+            //     ),
+            //   ),
+            // );
           }
-          if (chatTiles.isEmpty) {
+          if (contactDetails.isEmpty) {
             return Center(
               child: Text(
                 'No chats to be displayed. Start a new chat by tapping on the 💬 button below!',
@@ -79,11 +80,43 @@ class ChatListStream extends StatelessWidget {
             return Column(
               children: [
                 Expanded(
-                  child: ListView(
+                  child: ListView.builder(
+                    itemCount: contactDetails.length,
                     padding: EdgeInsets.all(10.0),
                     physics: ScrollPhysics(),
-                    children: chatTiles,
+                    itemBuilder: (context, index){
+                      return ListTile(
+                onTap: () {
+                  //print(contactEmail);
+                  Navigator.pushNamed(context, ChatScreen.id,
+                      arguments: contactEmails[index]);
+                },
+                minVerticalPadding: 5.0,
+                contentPadding: EdgeInsets.all(10.0),
+                leading: CircleAvatar(
+                  radius: 25.0,
+                  backgroundColor: Colors.blueGrey.shade100,
+                  child: Text(
+                    contactNames[index][0],
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
                   ),
+                ),
+                title: Text(
+                  contactNames[index],
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                ),
+                subtitle: Text(
+                  contactEmails[index],
+                ),
+                      );
+                    },
+                    ),
                 ),
               ],
             );
