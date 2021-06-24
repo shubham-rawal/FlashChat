@@ -29,14 +29,17 @@ class ChatListStream extends StatelessWidget {
             );
           }
           final contactDetails = snapshot.data.docs.reversed;
+          print(contactDetails.length);
           List<ListTile> chatTiles = [];
           for (var contactDetail in contactDetails) {
             contactName = contactDetail.get('contactName');
             contactEmail = contactDetail.get('contactEmail');
+            // print(contactEmail);
             chatTiles.add(
               ListTile(
                 onTap: () {
-                  Navigator.pushNamed(context, ChatScreen.id);
+                  Navigator.pushNamed(context, ChatScreen.id,
+                      arguments: contactEmail);
                 },
                 minVerticalPadding: 5.0,
                 contentPadding: EdgeInsets.all(10.0),
@@ -61,17 +64,26 @@ class ChatListStream extends StatelessWidget {
               ),
             );
           }
-          return Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.all(10.0),
-                  physics: ScrollPhysics(),
-                  children: chatTiles,
-                ),
+          if (chatTiles.isEmpty) {
+            return Center(
+              child: Text(
+                'No chats to be displayed. Start a new chat by tapping on the 💬 button below!',
+                textAlign: TextAlign.center,
               ),
-            ],
-          );
+            );
+          } else {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.all(10.0),
+                    physics: ScrollPhysics(),
+                    children: chatTiles,
+                  ),
+                ),
+              ],
+            );
+          }
         });
   }
 }

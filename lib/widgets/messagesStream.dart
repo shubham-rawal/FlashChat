@@ -8,6 +8,8 @@ import 'package:flash_chat/screens/chat_screen.dart';
 
 class MessagesStream extends StatelessWidget {
   final _firestore = FirebaseFirestore.instance;
+  final String email;
+  MessagesStream(this.email);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -28,10 +30,8 @@ class MessagesStream extends StatelessWidget {
           final messageSender = message.get('sender');
           final messageReceiver = message.get('receiver');
           final currentUser = loggedInUser.email;
-          if ((messageSender == currentUser &&
-                  messageReceiver == contactEmail) ||
-              (messageSender == contactEmail &&
-                  messageReceiver == currentUser)) {
+          print(contactEmail);
+          if (messageSender == currentUser && messageReceiver == email) {
             final messageBubble = MessageBubble(
               text: messageText,
               sender: messageSender,

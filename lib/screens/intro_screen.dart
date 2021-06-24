@@ -54,40 +54,46 @@ class IntroScreen extends StatelessWidget {
             Spacer(flex: 3),
             FittedBox(
               child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, WelcomeScreen.id);
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'Continue',
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .color
-                                  .withOpacity(0.8),
-                            ),
-                      ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .color
-                            .withOpacity(0.8),
-                      ),
-                    ],
-                  )),
+                onPressed: () {
+                  Navigator.pushNamed(context, WelcomeScreen.id);
+                },
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      'Continue',
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .color
+                                .withOpacity(0.8),
+                          ),
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .color
+                          .withOpacity(0.8),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            SizedBox(
+              height: 10.0,
+            )
           ],
         ),
       ),
     );
   }
 }
-

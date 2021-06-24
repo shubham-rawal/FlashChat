@@ -41,6 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String chatEmail =
+        ModalRoute.of(context).settings.arguments as String;
+    print(chatEmail);
     return Scaffold(
       appBar: AppBar(
         leading: null,
@@ -60,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            MessagesStream(),
+            MessagesStream(chatEmail),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(

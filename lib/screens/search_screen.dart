@@ -46,12 +46,17 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
+    //bool isFirstSearch = true;
     print(currentUserDetails);
     final _searchController = TextEditingController();
 
-    void createFinalWidget() {
+    Widget createFinalWidget() {
       if (isSearchResultEmpty == false) {
-        finalWidget = Column(
+        // if (isFirstSearch) {
+        //   isFirstSearch = false;
+        //   return null;
+        // }
+        return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
@@ -104,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         );
       } else {
-        finalWidget = Center(
+        return Center(
           child: Text(
             'Oops! No results found for this search. Please try again',
             textAlign: TextAlign.center,
@@ -153,7 +158,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: () {
                       setState(() {
                         searchForUser();
-                        createFinalWidget();
+                        //createFinalWidget();
                       });
                     },
                     child: CircleAvatar(
@@ -171,7 +176,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Text('Search Results : '),
             Expanded(
               child: Container(
-                child: finalWidget,
+                child: createFinalWidget(),
               ),
             ),
           ],
