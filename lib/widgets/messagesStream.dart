@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat/screens/chat_list.dart';
 import 'package:flash_chat/screens/search_screen.dart';
 import 'package:flash_chat/widgets/chatListStream.dart';
 import 'package:flash_chat/widgets/messageBubbles.dart';
@@ -27,15 +28,21 @@ class MessagesStream extends StatelessWidget {
           final messageSender = message.get('sender');
           final messageReceiver = message.get('receiver');
           final currentUser = loggedInUser.email;
-          final messageBubble = MessageBubble(
-            text: messageText,
-            sender: messageSender,
-            isMe: currentUser == messageSender,
-          );
-          messageBubbles.add(messageBubble);
+          if ((messageSender == currentUser &&
+                  messageReceiver == contactEmail) ||
+              (messageSender == contactEmail &&
+                  messageReceiver == currentUser)) {
+            final messageBubble = MessageBubble(
+              text: messageText,
+              sender: messageSender,
+              isMe: currentUser == messageSender,
+            );
+            messageBubbles.add(messageBubble);
+          }
         }
         return Expanded(
           child: ListView(
+            physics: ScrollPhysics(),
             reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,

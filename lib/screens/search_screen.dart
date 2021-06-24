@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
 import '../constants.dart';
+import 'chat_list.dart';
 import 'chat_screen.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -13,6 +15,7 @@ final User user = _auth.currentUser;
 String searchedUser;
 String searchedEmail;
 String searchedName;
+String searchedUserID;
 Widget finalWidget;
 bool isSearchResultEmpty = true;
 
@@ -23,6 +26,7 @@ Future<void> searchForUser() async {
     if (searchedEmail == searchedUser) {
       //searchedUser = null;
       searchedName = user.get('name');
+      searchedUserID = user.get('userId');
       isSearchResultEmpty = false;
 
       print(searchedName);
@@ -42,6 +46,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
+    print(currentUserDetails);
     final _searchController = TextEditingController();
 
     void createFinalWidget() {
@@ -52,14 +57,26 @@ class _SearchScreenState extends State<SearchScreen> {
             ListTile(
               onTap: () async {
                 Navigator.pushNamed(context, ChatScreen.id);
-                _firestore
+                await _firestore
                     .collection('users')
-                    .doc(user.uid)
+                    .doc(loggedUser.uid)
                     .collection('contacts')
                     .add({
                   'contactEmail': searchedEmail,
                   'contactName': searchedName,
-                  'timestamp' : Timestamp.now(),
+                  'id': searchedUserID,
+                  'timestamp': Timestamp.now(),
+                });
+
+                await _firestore
+                    .collection('users')
+                    .doc(searchedUserID)
+                    .collection('contacts')
+                    .add({
+                  'contactEmail': loggedUser.email,
+                  'contactName': currentUserDetails['name'],
+                  'Id': currentUserDetails['userId'],
+                  'timestamp': Timestamp.now(),
                 });
               },
               minVerticalPadding: 5.0,

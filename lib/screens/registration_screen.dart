@@ -123,6 +123,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             .set({
                           'name': name,
                           'email': email,
+                          'userId': newUser.user.uid,
                         });
                         if (newUser != null) {
                           Navigator.pushNamed(context, ChatList.id);

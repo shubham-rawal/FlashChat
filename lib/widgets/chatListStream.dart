@@ -20,6 +20,7 @@ class ChatListStream extends StatelessWidget {
             .orderBy('timestamp')
             .snapshots(),
         builder: (context, snapshot) {
+          //print('snapshot data ${snapshot.data.docs[2].get('contactName')}');
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(
@@ -60,12 +61,16 @@ class ChatListStream extends StatelessWidget {
               ),
             );
           }
-          return Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(10.0),
-              physics: ScrollPhysics(),
-              children: chatTiles,
-            ),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.all(10.0),
+                  physics: ScrollPhysics(),
+                  children: chatTiles,
+                ),
+              ),
+            ],
           );
         });
   }
