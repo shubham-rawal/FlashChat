@@ -46,15 +46,15 @@ class _ChatScreenState extends State<ChatScreen> {
     print(chatEmail);
     return Scaffold(
       appBar: AppBar(
-        leading: null,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
-        ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            size: 18,
+          ),
+        ),
         title: Text('⚡️Chat'),
         backgroundColor: Colors.lightBlueAccent,
       ),

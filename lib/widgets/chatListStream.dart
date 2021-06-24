@@ -36,38 +36,6 @@ class ChatListStream extends StatelessWidget {
           for (var contactDetail in contactDetails) {
             contactNames.add(contactDetail.get('contactName'));
             contactEmails.add(contactDetail.get('contactEmail'));
-            // chatTiles.add(
-            //   ListTile(
-            //     onTap: () {
-            //       //print(contactEmail);
-            //       Navigator.pushNamed(context, ChatScreen.id,
-            //           arguments: contactEmail);
-            //     },
-            //     minVerticalPadding: 5.0,
-            //     contentPadding: EdgeInsets.all(10.0),
-            //     leading: CircleAvatar(
-            //       radius: 25.0,
-            //       backgroundColor: Colors.blueGrey.shade100,
-            //       child: Text(
-            //         contactName[0],
-            //         style: TextStyle(
-            //           fontSize: 22,
-            //           fontWeight: FontWeight.bold,
-            //           color: Colors.blue,
-            //         ),
-            //       ),
-            //     ),
-            //     title: Text(
-            //       contactName,
-            //       style: TextStyle(
-            //         fontSize: 22,
-            //       ),
-            //     ),
-            //     subtitle: Text(
-            //       contactEmail,
-            //     ),
-            //   ),
-            // );
           }
           if (contactDetails.isEmpty) {
             return Center(
@@ -84,39 +52,39 @@ class ChatListStream extends StatelessWidget {
                     itemCount: contactDetails.length,
                     padding: EdgeInsets.all(10.0),
                     physics: ScrollPhysics(),
-                    itemBuilder: (context, index){
+                    itemBuilder: (context, index) {
                       return ListTile(
-                onTap: () {
-                  //print(contactEmail);
-                  Navigator.pushNamed(context, ChatScreen.id,
-                      arguments: contactEmails[index]);
-                },
-                minVerticalPadding: 5.0,
-                contentPadding: EdgeInsets.all(10.0),
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundColor: Colors.blueGrey.shade100,
-                  child: Text(
-                    contactNames[index][0],
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-                title: Text(
-                  contactNames[index],
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-                subtitle: Text(
-                  contactEmails[index],
-                ),
+                        onTap: () {
+                          //print(contactEmail);
+                          Navigator.pushNamed(context, ChatScreen.id,
+                              arguments: contactEmails[index]);
+                        },
+                        minVerticalPadding: 5.0,
+                        contentPadding: EdgeInsets.all(10.0),
+                        leading: CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Colors.blueGrey.shade100,
+                          child: Text(
+                            contactNames[index][0],
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          contactNames[index],
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
+                        subtitle: Text(
+                          contactEmails[index],
+                        ),
                       );
                     },
-                    ),
+                  ),
                 ),
               ],
             );

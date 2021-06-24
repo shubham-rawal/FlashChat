@@ -64,7 +64,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     .collection('users')
                     .doc(loggedUser.uid)
                     .collection('contacts')
-                    .add({
+                    .doc(searchedUserID)
+                    .set({
                   'contactEmail': searchedEmail,
                   'contactName': searchedName,
                   'id': searchedUserID,
@@ -75,7 +76,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     .collection('users')
                     .doc(searchedUserID)
                     .collection('contacts')
-                    .add({
+                    .doc(currentUserDetails['userId'])
+                    .set({
                   'contactEmail': loggedUser.email,
                   'contactName': currentUserDetails['name'],
                   'Id': currentUserDetails['userId'],
