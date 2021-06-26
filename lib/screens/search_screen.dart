@@ -51,9 +51,9 @@ class _SearchScreenState extends State<SearchScreen> {
     print(currentUserDetails);
     final _searchController = TextEditingController();
 
-    void createFinalWidget() {
+    Widget createFinalWidget() {
       if (isSearchResultEmpty == false) {
-        finalWidget = Column(
+        return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
@@ -109,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         );
       } else {
-        finalWidget = Center(
+        return Center(
           child: Text(
             'Oops! No results found for this search. Please try again',
             textAlign: TextAlign.center,
@@ -158,7 +158,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: () {
                       setState(() {
                         searchForUser();
-                        createFinalWidget();
+                        if (_searchController.value == null) {
+                          finalWidget = null;
+                        } else
+                          finalWidget = createFinalWidget();
+
+                        _searchController.clear();
+                        //searchedUser = null;
                       });
                     },
                     child: CircleAvatar(
