@@ -17,26 +17,7 @@ String searchedEmail;
 String searchedName;
 String searchedUserID;
 Widget finalWidget;
-bool isSearchResultEmpty = true;
-
-Future<void> searchForUser() async {
-  final userList = await _firestore.collection('users').get();
-  for (var user in userList.docs) {
-    searchedEmail = user.get('email');
-    if (searchedEmail == searchedUser) {
-      //searchedUser = null;
-      searchedName = user.get('name');
-      searchedUserID = user.get('userId');
-      isSearchResultEmpty = false;
-
-      print(searchedName);
-      break;
-    } else {
-      isSearchResultEmpty = true;
-    }
-    if (searchedName == null) isSearchResultEmpty = true;
-  }
-}
+bool isSearchResultEmpty;
 
 class SearchScreen extends StatefulWidget {
   static const String id = 'SearchScreen';
@@ -46,6 +27,37 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  Future<void> searchForUser() async {
+    print("SEARCHING");
+    final userList = await _firestore.collection('users').get();
+    for (var user in userList.docs) {
+      searchedEmail = user.get('email');
+      if (searchedEmail == searchedUser) {
+        //searchedUser = null;
+        searchedName = user.get('name');
+        searchedUserID = user.get('userId');
+        print(searchedName);
+        setState(() {
+          print("Hello");
+
+          isSearchResultEmpty = false;
+        });
+        print("Function $isSearchResultEmpty");
+        print(searchedName);
+        break;
+      } else {
+        setState(() {
+          isSearchResultEmpty = true;
+        });
+      }
+      if (searchedName == null) {
+        setState(() {
+          isSearchResultEmpty = true;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(currentUserDetails);
@@ -58,6 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             ListTile(
               onTap: () async {
+                //TODO: pass searchedUserName and searchedUserId as a MAP
                 Navigator.pushNamed(context, ChatScreen.id,
                     arguments: searchedEmail);
                 await _firestore
@@ -146,7 +159,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     controller: _searchController,
                     onChanged: (value) {
                       searchedUser = value;
-                      print(searchedUser);
                     },
                     decoration: kTextFieldDecoration.copyWith(
                       hintText: 'Search for a user by email...',
@@ -156,16 +168,19 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      print(searchedUser);
+                      print(isSearchResultEmpty);
                       setState(() {
                         searchForUser();
-                        if (_searchController.value == null) {
+                        if (searchedUser == null) {
                           finalWidget = null;
                         } else
                           finalWidget = createFinalWidget();
-
                         _searchController.clear();
+
                         //searchedUser = null;
                       });
+                      // searchedUser = null;
                     },
                     child: CircleAvatar(
                       radius: 22.0,

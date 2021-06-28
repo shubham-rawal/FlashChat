@@ -7,6 +7,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.lightBlue.shade50,
       body: SafeArea(
         child: Column(
           children: [
@@ -89,7 +90,7 @@ class IntroScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             )
           ],
         ),

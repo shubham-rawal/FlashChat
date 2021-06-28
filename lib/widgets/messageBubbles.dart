@@ -13,13 +13,13 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text(
-            sender,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.black54,
-            ),
-          ),
+          // Text(
+          //   sender,
+          //   style: TextStyle(
+          //     fontSize: 12,
+          //     color: Colors.black54,
+          //   ),
+          // ),
           Material(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(isMe ? 30.0 : 0.0),
@@ -27,13 +27,14 @@ class MessageBubble extends StatelessWidget {
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
             ),
-            elevation: 5.0,
-            color: isMe ? Colors.lightBlueAccent : Colors.white,
+            elevation: 3.0,
+            color: isMe ? Colors.blue : Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Text(
                 text,
                 style: TextStyle(
+                  fontSize: 15,
                   color: isMe ? Colors.white : Colors.black,
                 ),
               ),

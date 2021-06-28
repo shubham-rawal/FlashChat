@@ -45,6 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ModalRoute.of(context).settings.arguments as String;
     print(chatEmail);
     return Scaffold(
+      backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -76,15 +77,16 @@ class _ChatScreenState extends State<ChatScreen> {
                         messageText = value;
                       },
                       decoration: kMessageTextFieldDecoration,
+                      textCapitalization: TextCapitalization.sentences,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       messageTextController.clear();
 
                       //We need messageText + loggedInUser.email to upload to firestore
                       if (messageText.isNotEmpty && messageText != '') {
-                        _firestore.collection('messages').add({
+                        await _firestore.collection('messages').add({
                           'timestamp': Timestamp.now(),
                           'text': messageText,
                           'sender': loggedInUser.email,
