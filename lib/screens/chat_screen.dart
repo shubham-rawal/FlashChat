@@ -6,7 +6,6 @@ import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat_list.dart';
-import 'login_screen.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -87,30 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                       //We need messageText + loggedInUser.email to upload to firestore
                       if (messageText.isNotEmpty && messageText != '') {
-                        await _firestore
-                            .collection('users')
-                            .doc(loggedUser.uid)
-                            .collection('contacts')
-                            .doc(searchedUserID)
-                            .set({
-                          'contactEmail': searchedEmail,
-                          'contactName': searchedName,
-                          'id': searchedUserID,
-                          'timestamp': Timestamp.now(),
-                        });
-
-                        await _firestore
-                            .collection('users')
-                            .doc(searchedUserID)
-                            .collection('contacts')
-                            .doc(currentUserDetails['userId'])
-                            .set({
-                          'contactEmail': loggedUser.email,
-                          'contactName': currentUserDetails['name'],
-                          'Id': currentUserDetails['userId'],
-                          'timestamp': Timestamp.now(),
-                        });
-
+                        
                         await _firestore.collection('messages').add({
                           'timestamp': Timestamp.now(),
                           'text': messageText,
