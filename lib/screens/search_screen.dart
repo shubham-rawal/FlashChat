@@ -73,29 +73,29 @@ class _SearchScreenState extends State<SearchScreen> {
                 //TODO: pass searchedUserName and searchedUserId as a MAP
                 Navigator.pushNamed(context, ChatScreen.id,
                     arguments: searchedEmail);
-                await _firestore
-                    .collection('users')
-                    .doc(loggedUser.uid)
-                    .collection('contacts')
-                    .doc(searchedUserID)
-                    .set({
-                  'contactEmail': searchedEmail,
-                  'contactName': searchedName,
-                  'id': searchedUserID,
-                  'timestamp': Timestamp.now(),
-                });
+                // await _firestore
+                //     .collection('users')
+                //     .doc(loggedUser.uid)
+                //     .collection('contacts')
+                //     .doc(searchedUserID)
+                //     .set({
+                //   'contactEmail': searchedEmail,
+                //   'contactName': searchedName,
+                //   'id': searchedUserID,
+                //   'timestamp': Timestamp.now(),
+                // });
 
-                await _firestore
-                    .collection('users')
-                    .doc(searchedUserID)
-                    .collection('contacts')
-                    .doc(currentUserDetails['userId'])
-                    .set({
-                  'contactEmail': loggedUser.email,
-                  'contactName': currentUserDetails['name'],
-                  'Id': currentUserDetails['userId'],
-                  'timestamp': Timestamp.now(),
-                });
+                // await _firestore
+                //     .collection('users')
+                //     .doc(searchedUserID)
+                //     .collection('contacts')
+                //     .doc(currentUserDetails['userId'])
+                //     .set({
+                //   'contactEmail': loggedUser.email,
+                //   'contactName': currentUserDetails['name'],
+                //   'Id': currentUserDetails['userId'],
+                //   'timestamp': Timestamp.now(),
+                // });
               },
               minVerticalPadding: 5.0,
               contentPadding: EdgeInsets.all(10.0),
