@@ -41,9 +41,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String chatEmail =
-        ModalRoute.of(context).settings.arguments as String;
-    print(chatEmail);
+    final Map receiverDetails =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    print('hereeee');
+    print(receiverDetails['searchedEmail']);
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
@@ -56,7 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
             size: 18,
           ),
         ),
-        title: Text('⚡️Chat'),
+        title: Text(receiverDetails['searchedName']),
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: SafeArea(
@@ -64,7 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            MessagesStream(chatEmail),
+            MessagesStream(receiverDetails['searchedEmail']),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -86,12 +87,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
                       //We need messageText + loggedInUser.email to upload to firestore
                       if (messageText.isNotEmpty && messageText != '') {
-                        
                         await _firestore.collection('messages').add({
                           'timestamp': Timestamp.now(),
                           'text': messageText,
                           'sender': loggedInUser.email,
-                          'receiver': chatEmail,
+                          'receiver': receiverDetails['searchedEmail'],
                         });
                         messageText = null;
                       }
