@@ -17,11 +17,12 @@ String searchedEmail;
 String searchedName;
 String searchedUserID;
 Widget finalWidget;
+
 bool isSearchResultEmpty;
-// Map<String, String> searchedUserDetails = {
-//   'searchedName': searchedName,
-//   'searchedEmail': searchedEmail,
-// };
+Map<String, String> searchedUserDetails = {
+  'searchedName': searchedName,
+  'searchedEmail': searchedEmail,
+};
 
 class SearchScreen extends StatefulWidget {
   static const String id = 'SearchScreen';
@@ -37,17 +38,16 @@ class _SearchScreenState extends State<SearchScreen> {
     for (var user in userList.docs) {
       searchedEmail = user.get('email');
       if (searchedEmail == searchedUser) {
-        //searchedUser = null;
+        // searchedUser = null;
         searchedName = user.get('name');
         searchedUserID = user.get('userId');
-        print(searchedName);
         setState(() {
           print("Hello");
 
           isSearchResultEmpty = false;
         });
         print("Function $isSearchResultEmpty");
-        print(searchedName);
+        print("Function search Name : $searchedName");
         break;
       } else {
         setState(() {
@@ -63,9 +63,16 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
+  void initState() {
+    finalWidget = null;
+    searchedUser = null;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print(currentUserDetails);
-    final _searchController = TextEditingController();
+    // final _searchController = TextEditingController();
 
     Widget createFinalWidget() {
       if (isSearchResultEmpty == false) {
@@ -74,11 +81,11 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             ListTile(
               onTap: () async {
+                print('ListTile name : $searchedName');
+                print('ListTile email : $searchedEmail');
                 //TODO: pass searchedUserName and searchedUserId as a MAP
-                Navigator.pushNamed(context, ChatScreen.id, arguments: {
-                  'searchedName': searchedName,
-                  'searchedEmail': searchedEmail
-                });
+                Navigator.pushNamed(context, ChatScreen.id,
+                    arguments: searchedUserDetails);
                 await _firestore
                     .collection('users')
                     .doc(loggedUser.uid)
@@ -162,9 +169,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   flex: 6,
                   child: TextField(
-                    controller: _searchController,
+                    // controller: _searchController,
                     onChanged: (value) {
                       searchedUser = value;
+                      print(searchedUser);
                     },
                     decoration: kTextFieldDecoration.copyWith(
                       hintText: 'Search for a user by email...',
@@ -173,20 +181,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
-                      print(searchedUser);
-                      print(isSearchResultEmpty);
-                      setState(() {
-                        searchForUser();
-                        if (searchedUser == null) {
+                    onTap: () async {
+                      print(" searched user email $searchedUser");
+                      if (searchedUser == null)
+                        finalWidget = null;
+                      else {
+                        await searchForUser();
+                        if (searchedUser == '') {
                           finalWidget = null;
                         } else
                           finalWidget = createFinalWidget();
-                        _searchController.clear();
-
-                        //searchedUser = null;
-                      });
-                      // searchedUser = null;
+                        // _searchController.clear();
+                      }
                     },
                     child: CircleAvatar(
                       radius: 22.0,
@@ -203,7 +209,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Text('Search Results : '),
             Expanded(
               child: Container(
-                child: finalWidget,
+                child: searchedUser == null ? null : finalWidget,
               ),
             ),
           ],

@@ -41,9 +41,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map receiverDetails =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    print('hereeee');
+    final receiverDetails =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     print(receiverDetails['searchedEmail']);
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],
@@ -86,14 +85,18 @@ class _ChatScreenState extends State<ChatScreen> {
                       messageTextController.clear();
 
                       //We need messageText + loggedInUser.email to upload to firestore
-                      if (messageText.isNotEmpty && messageText != '') {
-                        await _firestore.collection('messages').add({
-                          'timestamp': Timestamp.now(),
-                          'text': messageText,
-                          'sender': loggedInUser.email,
-                          'receiver': receiverDetails['searchedEmail'],
-                        });
-                        messageText = null;
+                      try {
+                        if (messageText.isNotEmpty && messageText != '') {
+                          await _firestore.collection('messages').add({
+                            'timestamp': Timestamp.now(),
+                            'text': messageText,
+                            'sender': loggedInUser.email,
+                            'receiver': receiverDetails['searchedEmail'],
+                          });
+                          messageText = null;
+                        }
+                      } catch (e) {
+                        print('messageText is empty');
                       }
                     },
                     child: Text(

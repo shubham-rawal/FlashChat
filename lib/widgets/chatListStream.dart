@@ -55,9 +55,14 @@ class ChatListStream extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return ListTile(
                         onTap: () {
+                          print(
+                              'chatList wali email : ${contactEmails[index]}');
                           //print(contactEmail);
                           Navigator.pushNamed(context, ChatScreen.id,
-                              arguments: contactEmails[index]);
+                              arguments: {
+                                "searchedName": contactNames[index],
+                                "searchedEmail": contactEmails[index]
+                              });
                         },
                         minVerticalPadding: 5.0,
                         contentPadding: EdgeInsets.all(10.0),
