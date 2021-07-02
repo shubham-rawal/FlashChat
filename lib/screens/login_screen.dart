@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             email: email, password: password);
                         if (user != null) {
                           await getCurrentUserData();
-                          print(currentUserDetails);
+                          //print(currentUserDetails);
                           Navigator.pushNamed(context, ChatList.id);
                         }
 

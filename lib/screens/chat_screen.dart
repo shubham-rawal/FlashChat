@@ -99,7 +99,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           messageText = null;
                           await _firestore
                               .collection('users')
-                              .doc(loggedInUser.uid)
+                              .doc(loggedUser.uid)
                               .collection('contacts')
                               .doc(receiverDetails['searchedUID'])
                               .update({'timestamp': Timestamp.now()});
@@ -111,8 +111,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               .update({'timestamp': Timestamp.now()});
                         }
                       } catch (e) {
-                        print(
-                            'Message could not be sent or the message text is empty');
+                        print(e);
                       }
                     },
                     child: Text(

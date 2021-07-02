@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import 'login_screen.dart';
+
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registerationScreen';
   @override
@@ -24,6 +26,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String name;
   String email;
   String password;
+
+//For getting the current user data and storing it in currentUserData map on the login screen.
+  Future<void> getCurrentUserData() async {
+    try {
+      var dataOfCurrentUser =
+          await _firestore.collection('users').doc(_auth.currentUser.uid).get();
+
+      //print(dataOfCurrentUser.data());
+      currentUserDetails = dataOfCurrentUser.data();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +142,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           'userId': newUser.user.uid,
                         });
                         if (newUser != null) {
+                          getCurrentUserData();
                           Navigator.pushNamed(context, ChatList.id);
                         }
                         setState(() {

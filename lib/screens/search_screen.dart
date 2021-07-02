@@ -93,7 +93,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   'id': searchedUserID,
                   'timestamp': Timestamp.now(),
                 });
-
                 await _firestore
                     .collection('users')
                     .doc(searchedUserID)
