@@ -1,3 +1,4 @@
+import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/search_screen.dart';
 import 'package:flash_chat/widgets/chatListStream.dart';
 import 'package:flash_chat/widgets/messagesStream.dart';
@@ -94,9 +95,22 @@ class _ChatScreenState extends State<ChatScreen> {
                             'receiver': receiverDetails['searchedEmail'],
                           });
                           messageText = null;
+                          await _firestore
+                              .collection('users')
+                              .doc(loggedInUser.uid)
+                              .collection('contacts')
+                              .doc(receiverDetails['searchedUID'])
+                              .update({'timestamp': Timestamp.now()});
+                          await _firestore
+                              .collection('users')
+                              .doc(receiverDetails['searchedUID'])
+                              .collection('contacts')
+                              .doc(loggedInUser.uid)
+                              .update({'timestamp': Timestamp.now()});
                         }
                       } catch (e) {
-                        print('messageText is empty');
+                        print(
+                            'Message could not be sent or the message text is empty');
                       }
                     },
                     child: Text(

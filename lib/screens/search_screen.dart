@@ -17,12 +17,7 @@ String searchedEmail;
 String searchedName;
 String searchedUserID;
 Widget finalWidget;
-
 bool isSearchResultEmpty;
-Map<String, String> searchedUserDetails = {
-  'searchedName': searchedName,
-  'searchedEmail': searchedEmail,
-};
 
 class SearchScreen extends StatefulWidget {
   static const String id = 'SearchScreen';
@@ -83,9 +78,13 @@ class _SearchScreenState extends State<SearchScreen> {
               onTap: () async {
                 print('ListTile name : $searchedName');
                 print('ListTile email : $searchedEmail');
+                Map<String, String> searchedUserDetails = {
+                  'searchedName': searchedName,
+                  'searchedEmail': searchedEmail,
+                };
                 //TODO: pass searchedUserName and searchedUserId as a MAP
-                Navigator.pushNamed(context, ChatScreen.id,
-                    arguments: searchedUserDetails);
+                //TODO: sahi se nahi horha pass abhi bhi
+
                 await _firestore
                     .collection('users')
                     .doc(loggedUser.uid)
@@ -106,9 +105,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     .set({
                   'contactEmail': loggedUser.email,
                   'contactName': currentUserDetails['name'],
-                  'Id': currentUserDetails['userId'],
+                  'id': currentUserDetails['userId'],
                   'timestamp': Timestamp.now(),
                 });
+                Navigator.pushNamed(context, ChatScreen.id,
+                    arguments: searchedUserDetails);
               },
               minVerticalPadding: 5.0,
               contentPadding: EdgeInsets.all(10.0),

@@ -33,9 +33,11 @@ class ChatListStream extends StatelessWidget {
           //List<ListTile> chatTiles = [];
           List contactNames = [];
           List contactEmails = [];
+          List contactUIDs = [];
           for (var contactDetail in contactDetails) {
             contactNames.add(contactDetail.get('contactName'));
             contactEmails.add(contactDetail.get('contactEmail'));
+            contactUIDs.add(contactDetail.get('id'));
           }
           if (contactDetails.isEmpty) {
             return Center(
@@ -57,11 +59,12 @@ class ChatListStream extends StatelessWidget {
                         onTap: () {
                           print(
                               'chatList wali email : ${contactEmails[index]}');
-                          //print(contactEmail);
+
                           Navigator.pushNamed(context, ChatScreen.id,
                               arguments: {
                                 "searchedName": contactNames[index],
-                                "searchedEmail": contactEmails[index]
+                                "searchedEmail": contactEmails[index],
+                                'searchedUID': contactUIDs[index],
                               });
                         },
                         minVerticalPadding: 5.0,
