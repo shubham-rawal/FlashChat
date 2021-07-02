@@ -82,9 +82,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   'searchedName': searchedName,
                   'searchedEmail': searchedEmail,
                 };
-                //TODO: pass searchedUserName and searchedUserId as a MAP
-                //TODO: sahi se nahi horha pass abhi bhi
-
                 await _firestore
                     .collection('users')
                     .doc(loggedUser.uid)

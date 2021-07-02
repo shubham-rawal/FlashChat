@@ -73,6 +73,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      maxLines: 6,
+                      minLines: 1,
                       controller: messageTextController,
                       onChanged: (value) {
                         messageText = value;
