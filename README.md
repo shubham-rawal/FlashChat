@@ -5,11 +5,17 @@
 The objective of this tutorial was to learn how to incorporate Firebase into Flutter Apps. I used Firebase Cloud Firestore as well as the Firebase authentication package to equip the app with a cloud-based NoSQL database and secure authentication methods. 
 
 
-## What I have created...
+## App Demo
 
-I have built a modern messaging app where users can sign up and log in to chat.
+I have built a modern one-to-one messaging app where users can sign in and chat!
 
-![Finished App](https://github.com/londonappbrewery/Images/blob/master/flash_chat_flutter_demo.gif)
+
+
+https://user-images.githubusercontent.com/56134221/124762771-e3f82400-df50-11eb-9b9e-e68baa0431d5.mp4
+
+
+
+
 
 ## What I have learned
 
