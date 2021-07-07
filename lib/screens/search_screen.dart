@@ -166,6 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   flex: 6,
                   child: TextField(
+                    keyboardType: TextInputType.emailAddress,
                     // controller: _searchController,
                     onChanged: (value) {
                       searchedUser = value;
