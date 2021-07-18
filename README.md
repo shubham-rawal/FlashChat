@@ -19,15 +19,6 @@ https://user-images.githubusercontent.com/56134221/124762771-e3f82400-df50-11eb-
 
 ## What I have learned
 
-- How to incorporate Firebase into your Flutter projects.
-- How to use Firebase authentication to register and sign in users.
-- How to create beautiful animations using the Flutter Hero widget.
-- How to create custom aniamtions using Flutter's animation controller. 
-- Learn all about mixins and how they differ from superclasses.
-- Learn about Streams and how they work.
-- Learn to use ListViews to build scrolling views.
-- How to use Firebase Cloud Firestore to store and retrieve data on the fly.
+Through this project, I was able to brushen up my backend skills and learnt a lot about Firebase and how to work with Authentication and Firestore to implement a safe and secure way to send and receive messages.
+It also helped me understand how personal chat apps work and how to use Firestore database to implement the same.
 
-
-
->This is a companion project to The App Brewery's Complete Flutter Development Bootcamp, check out the full course at [www.appbrewery.co](https://www.appbrewery.co/)
